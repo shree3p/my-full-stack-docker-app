@@ -1,21 +1,30 @@
 services:
-  frontend:
-    build: ./frontend
-    container_name: frontend
-    ports:
-      - "3000:3000"
-
-  backend:
-    build: ./backend
-    container_name: backend
-    ports:
-      - "5000:5000"
-
   nginx:
-    build: ./nginx
-    container_name: nginx
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    container_name: nginx-container
     ports:
       - "80:80"
     depends_on:
       - frontend
-      - backend
+      - backend-1
+      - backend-2
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: frontend-container
+
+  backend-1:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: backend-container-1
+
+  backend-2:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: backend-container-2
